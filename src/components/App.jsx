@@ -25,27 +25,30 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-   const addContact = (data) => {
+  const addContact = (data) => {
     const { name, number } = data;
     if (validateContact(data)) {
       alert(`${name} is already in your contacts!`);
       return;
-    }
+    };
 
     const newContact = { id: nanoid(), name, number };
     
     setContacts(contacts => [...contacts, newContact]);
     return newContact.id;   
   };
+
   const validateContact = (inputData) => {
     return contacts.find(contact => contact.name === inputData.name);
-    };
+  };
 
-   const changeFilter = filter => setFilter(filter);
+  const changeFilter = (e) => {
+    setFilter(e.target.value);
+  };
 
-    
-    const getVisibleContacts = () => {
+  const getVisibleContacts = () => {
     const normalizeFilter = filter.toLowerCase();
+
     return contacts.filter(contact => contact.name.toLowerCase().includes(normalizeFilter));
   };
 
@@ -65,7 +68,7 @@ const App = () => {
         <ContactList contacts={visibleContacts} onDeleteContact={deleteContact} />
         </div>
       );
-    }
+}
 
 
 export default App;
